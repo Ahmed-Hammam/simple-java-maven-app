@@ -8,11 +8,6 @@ pipeline {
       steps {
         sh 'mvn -B -DskipTests clean package'
       }
-    }
-    stage('Build Docker Image'){
-    steps{
-      sh 'docker.build registry + ":$BUILD_NUMBER"'
-    }
-  }
+    }    
   }
 }
