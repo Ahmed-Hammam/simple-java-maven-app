@@ -16,9 +16,9 @@ pipeline {
 // artifactDaysToKeepStr - Days to keep artifacts
 // artifactNumToKeepStr - Max # of builds to keep with artifacts	  
 }	  
-/*environment {
-    SONAR_HOME = "${tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}"
-  }*/  
+environment {
+    SONAR_HOME = "${tool name: 'sonar-scanner'}"
+  }
 
   stages {
     stage('Artifactory_Configuration') {
@@ -45,7 +45,7 @@ pipeline {
           scannerHome = tool 'sonar-scanner'
         }*/
         withSonarQubeEnv('sonar') {
-      	  sh "./mvn sonarqube"
+      	  sh """${scannerHome}/bin/sonar-scanner"""
         }
       }	
     }	
