@@ -45,7 +45,7 @@ pipeline {
           scannerHome = tool 'sonar-scanner'
         }*/
         withSonarQubeEnv('sonar') {
-      	  sh "./gradlew sonarqube"
+      	  sh "./mvn sonarqube"
         }
       }	
     }	
