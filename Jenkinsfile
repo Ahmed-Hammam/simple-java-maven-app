@@ -5,7 +5,7 @@ def buildInfo
 pipeline {
   agent { label 'master' }
     tools {
-      maven 'Maven'
+      maven 'Maven' // maven name in jenkins config
       jdk 'JAVA_HOME'
     }
   options { 
@@ -44,7 +44,7 @@ pipeline {
         scannerHome = tool 'SonarQubeScanner'
     }
     steps {
-        withSonarQubeEnv('sonarqube') {
+        withSonarQubeEnv('sonar') { // sonarqube server name in jenkins config
             sh "${scannerHome}/bin/sonar-scanner"
         }
         timeout(time: 10, unit: 'MINUTES') {
