@@ -16,9 +16,9 @@ pipeline {
 // artifactDaysToKeepStr - Days to keep artifacts
 // artifactNumToKeepStr - Max # of builds to keep with artifacts	  
 }	  
-environment {
+/*environment {
     SONAR_HOME = "${tool name: 'sonar-scanner'}"
-  }
+  }*/
 
   stages {
     stage('Artifactory_Configuration') {
@@ -39,22 +39,19 @@ environment {
         }			                      
       }
     }	
-    stage('SonarQube_Analysis') {
-      steps {
-	   /* script {
-          scannerHome = tool 'sonar-scanner'
-        }*/
-        withSonarQubeEnv('sonar') {
-      	  sh """${scannerHome}/bin/sonar-scanner"""
-        }
-      }	
-    }	
-	stage('Quality_Gate') {
-	  steps {
-	    timeout(time: 1, unit: 'MINUTES') {
-		  waitForQualityGate abortPipeline: true
-        }
-      }
+   stage('Sonarqube') {
+    environment {
+        scannerHome = tool 'SonarQubeScanner'
     }
+    steps {
+        withSonarQubeEnv('sonarqube') {
+            sh "${scannerHome}/bin/sonar-scanner"
+        }
+        timeout(time: 10, unit: 'MINUTES') {
+            waitForQualityGate abortPipeline: true
+        }
+    }
+}
+	  
 }	
 }
